@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    {% if page == 'login' %}
+    <div>
+        <form action="" method="post">
+            {% csrf_token %}
+            <label for="username">Username: </label>
+            <input type="text" name="username" placeholder="Enter Username">
+            <label for="password">Password: </label>
+            <input type="password" name="password" placeholder="Enter password">
+            <input type="submit" value="Login">
+        </form>
+        <p>Haven't Signed Up</p>
+        <a href="{% url 'register' %}">Register</a>
+    </div>
+
+    {% else %}
+
+    <div class="container">
+        <form action="" method="post">
+            {% csrf_token %}
+            {% for field in form %}
+            <p>
+                {{field.label}}<br>
+                {{field}}
+                {% if field.help_text %}
+                    <small style="color: green;">{{field.help_text}}</small>
+                {% endif %}
+                {% for error in field.errors %}
+                <p style="color: red;">{{error}}</p>
+                {% endfor %}
+            </p>
+            {% endfor %}
+            <input type="submit" value="Sign up">
+        </form>
+        <p>Already Signed Up?</p>
+        <a href="{% url 'login' %}">Login</a>
+    </div>
+    {% endif %}
+</body>
+</html>

@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div>
+        <div>
+            
+        </div>
+        <div>
+            <a href="{% url 'home' %}"><h1>Home</h1></a>
+            <form action="{% url 'home' %}" method="get">
+                <input type="text" name="q" placeholder="Search for events...">
+            </form>
+
+            <div>
+                {% if request.user.is_authenticated %}
+                <p>Hello {{request.user}} </p>
+                <a href="{% url 'logout' %}">Logout</a>
+                {% else %}
+                <a href="{% url 'login' %}">Login</a>
+                {% endif %}
+            </div>
+        </div>
+        <div>
+            <h3>Welcome to my event registration site</h3>
+            <a href="{% url 'create-event' %}">Create Event</a>
+            <ul>Partiipants
+                <a href="{% url 'applauders' %}"><li>Applauders</li></a>
+                <a href="{% url 'seatwarmers' %}"><li>Seatwarmers</li></a>
+                <a href="{% url 'volunteers' %}"><li>Volunteers</li></a>
+            </ul>
+            <h4>Choose the event you would like to register for</h4>
+        </div>
+        <div>
+            {% for event in page_obj %}
+            <div>
+                <p><a href="{% url 'room' event.id %}">{{event.name}}</a></p>
+            </div>
+            {% endfor %}
+        </div>
+
+        <div class="pagination">
+            <span class="step-links">
+                {% if page_obj.has_previous %}
+                <a href="?page=1">&laquo; First</a>
+                <a href="?page={{page_obj.previous_page_number}}">previous</a>
+                {% endif %}
+
+                <span class="current">
+                    {% for num in page_obj.paginator.page_range %}
+                    {% if page_obj.num == num %}
+                    <a href="?page = {{num}}">{{num}}</a>
+                    {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+                    <a href="?page={{num}}">{{num}}</a>
+                    {% endif %}
+                    {% endfor %}
+                </span>
+
+                {% if page_obj.has_next %}
+                <a href="?page={{page_obj.next_page_number}}">next</a>
+                <a href="?page={{page_obj.paginator.num_pages}}">last &raquo;</a>
+                {% endif %}
+            </span>
+        </div>
+
+        <div>
+            <h3>Search for events in various cities</h3>
+            {% for cities in city %}
+            <div>
+                <p><a href="{% url 'home' %}?q={{cities.name}}">{{cities.name}}</a></p>
+            </div>
+            {% endfor %}
+        </div>
+
+    </div>
+    
+</body>
+</html>

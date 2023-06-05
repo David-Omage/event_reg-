@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div>        
+        <div>
+            <a href="{% url 'home' %}"><h1>Home</h1></a>           
+       </div>
+        <div>
+            <h2>{{events.name}}</h2>
+            <img src="{{events.image}}" alt="pic"> 
+            <h4>{{events.description}}</h4>
+            <h4>Ticket open until: {{events.close_date}}</h4>
+            <hr>
+            <h4>Posted by: {{events.poster}}</h4>
+            <p>email: {{events.poster.email}}</p>
+            <p>phone no: {{events.poster.phone}}</p>
+        </div>
+        <div>
+            <p>Click year to register for this event</p>
+            <form action="" method="post">
+                {% csrf_token %}
+                <input type="submit" value="Register">
+            </form>
+        </div>
+        <div>
+
+        </div>
+    </div>
+
+</body>
+</html>
